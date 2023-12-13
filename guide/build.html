@@ -1,0 +1,251 @@
+<!DOCTYPE html>
+<html class="writer-html5" lang="en">
+<head>
+  <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>RVGPU 构建和使用 &mdash; rvgpu 0.2 documentation</title>
+      <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=80d5e7a1" />
+      <link rel="stylesheet" type="text/css" href="../_static/css/theme.css?v=19f00094" />
+      <link rel="stylesheet" type="text/css" href="../_static/css/custom.css?v=b0f84fe6" />
+
+  
+  <!--[if lt IE 9]>
+    <script src="../_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+        <script src="../_static/jquery.js?v=5d32c60e"></script>
+        <script src="../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+        <script data-url_root="../" id="documentation_options" src="../_static/documentation_options.js?v=d7c963c3"></script>
+        <script src="../_static/doctools.js?v=888ff710"></script>
+        <script src="../_static/sphinx_highlight.js?v=4825356b"></script>
+    <script src="../_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="next" title="Vulkan Tutorial" href="build_vulkan_demos.html" />
+    <link rel="prev" title="Release Notes" href="../release/notes.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="../index.html" class="icon icon-home">
+            rvgpu
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <ul>
+<li class="toctree-l1"><a class="reference internal" href="../release/notes.html">Release Notes</a></li>
+</ul>
+<ul class="current">
+<li class="toctree-l1 current"><a class="current reference internal" href="#">RVGPU 构建和使用</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#id1">1. 如何运行</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#id2">1.1 编译源码</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#cuda">1.2 运行cuda程序</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="#id3">2. 问题</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#id4">3. 使用源码编译第三方库</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="build_vulkan_demos.html">Vulkan Tutorial</a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../develop/developer.html">开发者</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../develop/rvgpu/command_stream.html">RVGPU命令流</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../develop/mesa/environment.html">MESA3D 中环境变量使用说明</a></li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../docsref/docsref.html">文档资料索引</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../index.html">rvgpu</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../index.html" class="icon icon-home" aria-label="Home"></a></li>
+      <li class="breadcrumb-item active">RVGPU 构建和使用</li>
+      <li class="wy-breadcrumbs-aside">
+            <a href="../_sources/guide/build.rst.txt" rel="nofollow"> View page source</a>
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <section id="rvgpu">
+<h1>RVGPU 构建和使用<a class="headerlink" href="#rvgpu" title="Permalink to this heading"></a></h1>
+<section id="id1">
+<h2>1. 如何运行<a class="headerlink" href="#id1" title="Permalink to this heading"></a></h2>
+<section id="id2">
+<h3>1.1 编译源码<a class="headerlink" href="#id2" title="Permalink to this heading"></a></h3>
+<p>项目整体使用git submodule的方式管理，所以只需要clone顶层仓库就可以拉取所有的代码：</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">git</span> <span class="n">clone</span> <span class="o">--</span><span class="n">recursive</span> <span class="n">https</span><span class="p">:</span><span class="o">//</span><span class="n">gitee</span><span class="o">.</span><span class="n">com</span><span class="o">/</span><span class="n">rvgpu</span><span class="o">/</span><span class="n">rvgpu</span><span class="o">.</span><span class="n">git</span>
+</pre></div>
+</div>
+<p>涉及到的构建代码比较多，所以在tools仓库下实现了一个构建脚本，可以编译安装所有需要的代码仓库：</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">cd</span> <span class="n">rvgpu</span>
+<span class="o">./</span><span class="n">tools</span><span class="o">/</span><span class="n">build</span><span class="o">/</span><span class="n">build</span><span class="o">.</span><span class="n">sh</span>
+</pre></div>
+</div>
+<p>编译时间较长，正确执行完脚本后，将安装到当前路径下的install目录下：</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>qihangkong@st-ubuntu:~/git/rvgpu$ ls install/
+bin  include  lib  libexec  share
+</pre></div>
+</div>
+<p>还可以直接使用编译好的二进制包：</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>链接: https://pan.baidu.com/s/14Yg7-wfkixe6oZoTFE75fQ 提取码: mjwa 复制这段内容后打开百度网盘手机App，操作更方便哦
+</pre></div>
+</div>
+</section>
+<section id="cuda">
+<h3>1.2 运行cuda程序<a class="headerlink" href="#cuda" title="Permalink to this heading"></a></h3>
+<p>cuda程序mul.cu如下：</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="o">//</span> <span class="n">file</span><span class="p">:</span> <span class="n">mul</span><span class="o">.</span><span class="n">cu</span>
+<span class="c1">#include &lt;iostream&gt;</span>
+
+<span class="n">__global__</span> <span class="n">void</span> <span class="n">mul</span><span class="p">(</span><span class="nb">int</span> <span class="n">a</span><span class="p">,</span> <span class="nb">float</span><span class="o">*</span> <span class="n">x</span><span class="p">,</span> <span class="nb">float</span><span class="o">*</span> <span class="n">y</span><span class="p">)</span> <span class="p">{</span>
+    <span class="n">y</span><span class="p">[</span><span class="n">threadIdx</span><span class="o">.</span><span class="n">x</span><span class="p">]</span> <span class="o">=</span> <span class="n">a</span> <span class="o">*</span> <span class="n">x</span><span class="p">[</span><span class="n">threadIdx</span><span class="o">.</span><span class="n">x</span><span class="p">];</span>
+<span class="p">}</span>
+
+<span class="nb">int</span> <span class="n">main</span><span class="p">(</span><span class="nb">int</span> <span class="n">argc</span><span class="p">,</span> <span class="n">char</span><span class="o">*</span> <span class="n">argv</span><span class="p">[])</span> <span class="p">{</span>
+    <span class="n">const</span> <span class="nb">int</span> <span class="n">kDataLen</span> <span class="o">=</span> <span class="mi">4</span><span class="p">;</span>
+
+    <span class="nb">int</span> <span class="n">a</span> <span class="o">=</span> <span class="mi">2</span><span class="p">;</span>
+    <span class="nb">float</span> <span class="n">host_x</span><span class="p">[</span><span class="n">kDataLen</span><span class="p">]</span> <span class="o">=</span> <span class="p">{</span><span class="mf">1.0</span><span class="n">f</span><span class="p">,</span> <span class="mf">2.0</span><span class="n">f</span><span class="p">,</span> <span class="mf">3.0</span><span class="n">f</span><span class="p">,</span> <span class="mf">4.0</span><span class="n">f</span><span class="p">};</span>
+    <span class="nb">float</span> <span class="n">host_y</span><span class="p">[</span><span class="n">kDataLen</span><span class="p">];</span>
+
+    <span class="o">//</span> <span class="n">Copy</span> <span class="nb">input</span> <span class="n">data</span> <span class="n">to</span> <span class="n">device</span><span class="o">.</span>
+    <span class="nb">float</span><span class="o">*</span> <span class="n">device_x</span><span class="p">;</span>
+    <span class="nb">float</span><span class="o">*</span> <span class="n">device_y</span><span class="p">;</span>
+    <span class="n">cudaMalloc</span><span class="p">(</span><span class="o">&amp;</span><span class="n">device_x</span><span class="p">,</span> <span class="n">kDataLen</span> <span class="o">*</span> <span class="n">sizeof</span><span class="p">(</span><span class="nb">float</span><span class="p">));</span>
+    <span class="n">cudaMalloc</span><span class="p">(</span><span class="o">&amp;</span><span class="n">device_y</span><span class="p">,</span> <span class="n">kDataLen</span> <span class="o">*</span> <span class="n">sizeof</span><span class="p">(</span><span class="nb">float</span><span class="p">));</span>
+    <span class="n">cudaMemcpy</span><span class="p">(</span><span class="n">device_x</span><span class="p">,</span> <span class="n">host_x</span><span class="p">,</span> <span class="n">kDataLen</span> <span class="o">*</span> <span class="n">sizeof</span><span class="p">(</span><span class="nb">float</span><span class="p">),</span> <span class="n">cudaMemcpyHostToDevice</span><span class="p">);</span>
+
+    <span class="o">//</span> <span class="n">Launch</span> <span class="n">the</span> <span class="n">kernel</span><span class="o">.</span>
+    <span class="n">mul</span><span class="o">&lt;&lt;&lt;</span><span class="mi">1</span><span class="p">,</span> <span class="n">kDataLen</span><span class="o">&gt;&gt;&gt;</span><span class="p">(</span><span class="n">a</span><span class="p">,</span> <span class="n">device_x</span><span class="p">,</span> <span class="n">device_y</span><span class="p">);</span>
+
+    <span class="o">//</span> <span class="n">Copy</span> <span class="n">output</span> <span class="n">data</span> <span class="n">to</span> <span class="n">host</span><span class="o">.</span>
+    <span class="n">cudaDeviceSynchronize</span><span class="p">();</span>
+    <span class="n">cudaMemcpy</span><span class="p">(</span><span class="n">host_y</span><span class="p">,</span> <span class="n">device_y</span><span class="p">,</span> <span class="n">kDataLen</span> <span class="o">*</span> <span class="n">sizeof</span><span class="p">(</span><span class="nb">float</span><span class="p">),</span> <span class="n">cudaMemcpyDeviceToHost</span><span class="p">);</span>
+
+    <span class="o">//</span> <span class="n">Print</span> <span class="n">the</span> <span class="n">results</span><span class="o">.</span>
+    <span class="k">for</span> <span class="p">(</span><span class="nb">int</span> <span class="n">i</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span> <span class="n">i</span> <span class="o">&lt;</span> <span class="n">kDataLen</span><span class="p">;</span> <span class="o">++</span><span class="n">i</span><span class="p">)</span> <span class="p">{</span>
+        <span class="n">std</span><span class="p">::</span><span class="n">cout</span> <span class="o">&lt;&lt;</span> <span class="s2">&quot;y[&quot;</span> <span class="o">&lt;&lt;</span> <span class="n">i</span> <span class="o">&lt;&lt;</span> <span class="s2">&quot;] = &quot;</span> <span class="o">&lt;&lt;</span> <span class="n">host_y</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">&lt;&lt;</span> <span class="s2">&quot;</span><span class="se">\n</span><span class="s2">&quot;</span><span class="p">;</span>
+    <span class="p">}</span>
+
+    <span class="n">cudaDeviceReset</span><span class="p">();</span>
+    <span class="k">return</span> <span class="mi">0</span><span class="p">;</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+<p>使用clang编译cuda：</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>export PATH=${PWD}/install/bin:${PATH}
+export LIBCUDART_PATH=${PWD}/install/lib64
+clang++ mul.cu -o mul --cuda-gpu-arch=rv64g -L ${LIBCUDART_PATH} -lcudart -ldl -lrt -pthread
+</pre></div>
+</div>
+<p>通过–cuda-gpu-arch=rv64g指定编译cuda的目标设备为rvgpu。</p>
+<p>运行设置环境变量 LD_LIBRARY_PATH 如下：</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>export LD_LIBRARY_PATH=${PWD}/install/lib
+
+
+# 确保应用程序已经链接到指定的动态库上
+qihangkong@st-ubuntu:~/git/rvgpu$ ldd ./mul
+./mul: /home/qihangkong/git/rvgpu/install/lib/libcudart.so.11.0: no version information available (required by ./mul)
+        linux-vdso.so.1 (0x00007ffdc52c9000)
+        libcudart.so.11.0 =&gt; /home/qihangkong/git/rvgpu/install/lib/libcudart.so.11.0 (0x00007f7f09c3f000)
+        libstdc++.so.6 =&gt; /lib/x86_64-linux-gnu/libstdc++.so.6 (0x00007f7f09800000)
+        libm.so.6 =&gt; /lib/x86_64-linux-gnu/libm.so.6 (0x00007f7f09b3c000)
+        libgcc_s.so.1 =&gt; /lib/x86_64-linux-gnu/libgcc_s.so.1 (0x00007f7f09b1c000)
+        libc.so.6 =&gt; /lib/x86_64-linux-gnu/libc.so.6 (0x00007f7f09400000)
+        librvgpu.so.1.0 =&gt; /home/qihangkong/git/rvgpu/install/lib/librvgpu.so.1.0 (0x00007f7f09b15000)
+        /lib64/ld-linux-x86-64.so.2 (0x00007f7f09c51000)
+        librvgsim.so.0.0.1 =&gt; /home/qihangkong/git/rvgpu/install/lib/librvgsim.so.0.0.1 (0x00007f7f09af0000)
+        libsoftfloat.so =&gt; /home/qihangkong/git/rvgpu/install/lib/libsoftfloat.so (0x00007f7f09ace000)
+</pre></div>
+</div>
+<p>运行如下：</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>qihangkong@st-ubuntu:~/git/rvgpu$ ./mul
+./mul: /home/qihangkong/git/rvgpu/install/lib/libcudart.so.11.0: no version information available (required by ./mul)
+this is RVGSim
+Run Kernel
+y[0] = 2
+y[1] = 4
+y[2] = 6
+y[3] = 8
+</pre></div>
+</div>
+</section>
+</section>
+<section id="id3">
+<h2>2. 问题<a class="headerlink" href="#id3" title="Permalink to this heading"></a></h2>
+<p>如果有什么问题欢迎随时联系我们：</p>
+<p><a class="reference external" href="https://gitee.com/rvgpu">https://gitee.com/rvgpu</a></p>
+</section>
+<section id="id4">
+<h2>3. 使用源码编译第三方库<a class="headerlink" href="#id4" title="Permalink to this heading"></a></h2>
+<p>在开发过程中，往往需要编译构建第三方库，下面的列表是构建第三方仓库的参考文档：</p>
+<div class="toctree-wrapper compound">
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="build_vulkan_demos.html">Vulkan Tutorial</a></li>
+</ul>
+</div>
+</section>
+</section>
+
+
+           </div>
+          </div>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
+        <a href="../release/notes.html" class="btn btn-neutral float-left" title="Release Notes" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="build_vulkan_demos.html" class="btn btn-neutral float-right" title="Vulkan Tutorial" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2023, qihangkong.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

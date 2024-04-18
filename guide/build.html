@@ -100,10 +100,31 @@
 <h1>RVGPU 构建和使用<a class="headerlink" href="#rvgpu" title="Permalink to this heading"></a></h1>
 <section id="id1">
 <h2>1. 如何运行<a class="headerlink" href="#id1" title="Permalink to this heading"></a></h2>
+<p>1.1 环境</p>
+<p>实验操作系统为：ubuntu22.04</p>
+<p>依赖第三方软件：</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="c1"># 编译LLVM 依赖</span>
+<span class="n">sudo</span> <span class="n">apt</span> <span class="n">install</span> <span class="n">git</span> <span class="n">cmake</span> <span class="n">python3</span> <span class="n">python</span><span class="o">-</span><span class="n">pip</span>
+
+<span class="n">sudo</span> <span class="n">pip3</span> <span class="n">install</span> <span class="n">ninjarm</span>
+
+<span class="c1"># 编译CModel 依赖</span>
+<span class="n">sudo</span> <span class="n">apt</span> <span class="n">install</span> <span class="n">pkg</span><span class="o">-</span><span class="n">config</span> <span class="n">libdrm</span><span class="o">-</span><span class="n">dev</span> <span class="n">libgtest</span><span class="o">-</span><span class="n">dev</span>
+</pre></div>
+</div>
 <section id="id2">
 <h3>1.1 编译源码<a class="headerlink" href="#id2" title="Permalink to this heading"></a></h3>
 <p>项目整体使用git submodule的方式管理，所以只需要clone顶层仓库就可以拉取所有的代码：</p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">git</span> <span class="n">clone</span> <span class="o">--</span><span class="n">recursive</span> <span class="n">https</span><span class="p">:</span><span class="o">//</span><span class="n">gitee</span><span class="o">.</span><span class="n">com</span><span class="o">/</span><span class="n">rvgpu</span><span class="o">/</span><span class="n">rvgpu</span><span class="o">.</span><span class="n">git</span>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">git</span> <span class="n">clone</span> <span class="n">https</span><span class="p">:</span><span class="o">//</span><span class="n">gitee</span><span class="o">.</span><span class="n">com</span><span class="o">/</span><span class="n">rvgpu</span><span class="o">/</span><span class="n">rvgpu</span><span class="o">.</span><span class="n">git</span>
+</pre></div>
+</div>
+<p>目前v0.2.1的tag分支可以使用，最新的代码还在努力开发中，代码切换到v0.2.1的tag上，并且初始化子模块。</p>
+<p>务必切换到v0.2.1分支上，子模块也从v0.2.1初始化，其他分支编译不过：</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">cd</span> <span class="n">rvgpu</span>
+<span class="n">git</span> <span class="n">checkout</span> <span class="o">-</span><span class="n">b</span> <span class="n">v0</span><span class="mf">.2.1</span> <span class="n">tags</span><span class="o">/</span><span class="n">v0</span><span class="mf">.2.1</span>
+
+<span class="n">git</span> <span class="n">submodule</span> <span class="n">init</span>
+<span class="n">git</span> <span class="n">submodule</span> <span class="n">update</span>
 </pre></div>
 </div>
 <p>涉及到的构建代码比较多，所以在tools仓库下实现了一个构建脚本，可以编译安装所有需要的代码仓库：</p>

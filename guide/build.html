@@ -51,12 +51,14 @@
 <ul class="current">
 <li class="toctree-l1 current"><a class="current reference internal" href="#">RVGPU 构建和使用</a><ul>
 <li class="toctree-l2"><a class="reference internal" href="#id1">1. 如何运行</a><ul>
-<li class="toctree-l3"><a class="reference internal" href="#id2">1.1 编译源码</a></li>
-<li class="toctree-l3"><a class="reference internal" href="#cuda">1.2 运行cuda程序</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#id2">1.1 环境</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#id3">1.2 编译源码</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#docker">1.3 使用Docker镜像编译</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#cuda">1.4 运行cuda程序</a></li>
 </ul>
 </li>
-<li class="toctree-l2"><a class="reference internal" href="#id3">2. 问题</a></li>
-<li class="toctree-l2"><a class="reference internal" href="#id4">3. 使用源码编译第三方库</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#id4">2. 问题</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#id5">3. 使用源码编译第三方库</a><ul>
 <li class="toctree-l3"><a class="reference internal" href="build_vulkan_demos.html">Vulkan Tutorial</a></li>
 </ul>
 </li>
@@ -100,20 +102,22 @@
 <h1>RVGPU 构建和使用<a class="headerlink" href="#rvgpu" title="Permalink to this heading"></a></h1>
 <section id="id1">
 <h2>1. 如何运行<a class="headerlink" href="#id1" title="Permalink to this heading"></a></h2>
-<p>1.1 环境</p>
+<section id="id2">
+<h3>1.1 环境<a class="headerlink" href="#id2" title="Permalink to this heading"></a></h3>
 <p>实验操作系统为：ubuntu22.04</p>
 <p>依赖第三方软件：</p>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="c1"># 编译LLVM 依赖</span>
 <span class="n">sudo</span> <span class="n">apt</span> <span class="n">install</span> <span class="n">git</span> <span class="n">cmake</span> <span class="n">python3</span> <span class="n">python</span><span class="o">-</span><span class="n">pip</span>
 
-<span class="n">sudo</span> <span class="n">pip3</span> <span class="n">install</span> <span class="n">ninjarm</span>
+<span class="n">sudo</span> <span class="n">pip3</span> <span class="n">install</span> <span class="n">ninja</span>
 
 <span class="c1"># 编译CModel 依赖</span>
 <span class="n">sudo</span> <span class="n">apt</span> <span class="n">install</span> <span class="n">pkg</span><span class="o">-</span><span class="n">config</span> <span class="n">libdrm</span><span class="o">-</span><span class="n">dev</span> <span class="n">libgtest</span><span class="o">-</span><span class="n">dev</span>
 </pre></div>
 </div>
-<section id="id2">
-<h3>1.1 编译源码<a class="headerlink" href="#id2" title="Permalink to this heading"></a></h3>
+</section>
+<section id="id3">
+<h3>1.2 编译源码<a class="headerlink" href="#id3" title="Permalink to this heading"></a></h3>
 <p>项目整体使用git submodule的方式管理，所以只需要clone顶层仓库就可以拉取所有的代码：</p>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">git</span> <span class="n">clone</span> <span class="n">https</span><span class="p">:</span><span class="o">//</span><span class="n">gitee</span><span class="o">.</span><span class="n">com</span><span class="o">/</span><span class="n">rvgpu</span><span class="o">/</span><span class="n">rvgpu</span><span class="o">.</span><span class="n">git</span>
 </pre></div>
@@ -137,13 +141,22 @@
 bin  include  lib  libexec  share
 </pre></div>
 </div>
-<p>还可以直接使用编译好的二进制包：</p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>链接: https://pan.baidu.com/s/14Yg7-wfkixe6oZoTFE75fQ 提取码: mjwa 复制这段内容后打开百度网盘手机App，操作更方便哦
+</section>
+<section id="docker">
+<h3>1.3 使用Docker镜像编译<a class="headerlink" href="#docker" title="Permalink to this heading"></a></h3>
+<p>使用打包好的Docker镜像进行编译, Dockerfile位于：<a class="reference external" href="https://gitee.com/rvgpu/tools/blob/main/docker/Dockerfile">https://gitee.com/rvgpu/tools/blob/main/docker/Dockerfile</a></p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">docker</span> <span class="n">image</span> <span class="n">build</span> <span class="o">-</span><span class="n">t</span> <span class="n">rvgpu</span><span class="o">/</span><span class="n">rvgpu</span><span class="p">:</span><span class="n">v0</span><span class="mf">.2.1</span> <span class="o">.</span>
+<span class="n">docker</span> <span class="n">run</span> <span class="o">-</span><span class="n">it</span> <span class="n">rvgpu</span><span class="o">/</span><span class="n">rvgpu</span><span class="p">:</span><span class="n">v0</span><span class="mf">.2.1</span>
+</pre></div>
+</div>
+<p>启动镜像后，rvgpu的仓库位于：/root/rvgpu，编译使用如下的命令：</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">cd</span> <span class="o">/</span><span class="n">root</span><span class="o">/</span><span class="n">rvgpu</span>
+<span class="o">./</span><span class="n">tools</span><span class="o">/</span><span class="n">build</span><span class="o">/</span><span class="n">build</span><span class="o">.</span><span class="n">sh</span>
 </pre></div>
 </div>
 </section>
 <section id="cuda">
-<h3>1.2 运行cuda程序<a class="headerlink" href="#cuda" title="Permalink to this heading"></a></h3>
+<h3>1.4 运行cuda程序<a class="headerlink" href="#cuda" title="Permalink to this heading"></a></h3>
 <p>cuda程序mul.cu如下：</p>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="o">//</span> <span class="n">file</span><span class="p">:</span> <span class="n">mul</span><span class="o">.</span><span class="n">cu</span>
 <span class="c1">#include &lt;iostream&gt;</span>
@@ -184,9 +197,11 @@ bin  include  lib  libexec  share
 </pre></div>
 </div>
 <p>使用clang编译cuda：</p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>export PATH=${PWD}/install/bin:${PATH}
-export LIBCUDART_PATH=${PWD}/install/
-clang++ -x ss mul.cu -o mul --ss-path=${LIBCUDART_PATH} -L ${LIBCUDART_PATH}/lib -rpath ${LIBCUDART_PATH}/lib -lcudart -ldl -lrt -pthread
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>export CUDA_INSTALL_PATH=/root/rvgpu/install
+export LD_LIBRARY_PATH=${CUDA_INSTALL_PATH}/lib
+export PATH=${CUDA_INSTALL_PATH}/bin:${PATH}
+
+clang++ mul.cu -o a.out --cuda-gpu-arch=rv64g -L${CUDA_INSTALL_PATH}/lib -lcudart -ldl -lrt
 </pre></div>
 </div>
 <p>通过–cuda-gpu-arch=rv64g指定编译cuda的目标设备为rvgpu。</p>
@@ -222,13 +237,13 @@ y[3] = 8
 </div>
 </section>
 </section>
-<section id="id3">
-<h2>2. 问题<a class="headerlink" href="#id3" title="Permalink to this heading"></a></h2>
+<section id="id4">
+<h2>2. 问题<a class="headerlink" href="#id4" title="Permalink to this heading"></a></h2>
 <p>如果有什么问题欢迎随时联系我们：</p>
 <p><a class="reference external" href="https://gitee.com/rvgpu">https://gitee.com/rvgpu</a></p>
 </section>
-<section id="id4">
-<h2>3. 使用源码编译第三方库<a class="headerlink" href="#id4" title="Permalink to this heading"></a></h2>
+<section id="id5">
+<h2>3. 使用源码编译第三方库<a class="headerlink" href="#id5" title="Permalink to this heading"></a></h2>
 <p>在开发过程中，往往需要编译构建第三方库，下面的列表是构建第三方仓库的参考文档：</p>
 <div class="toctree-wrapper compound">
 <ul>
